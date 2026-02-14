@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestra Historia ❤️</title>
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    background: linear-gradient(160deg,#ff6b9d,#ffc2d1);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    color:white;
+}
+.app{
+    width:92%;
+    max-width:420px;
+    background: rgba(0,0,0,0.35);
+    padding:25px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.4);
+    animation:fadeIn 0.8s ease;
+}
+input{
+    padding:12px;
+    border-radius:12px;
+    border:none;
+    width:85%;
+    margin-top:15px;
+    text-align:center;
+    font-size:16px;
+}
+button{
+    padding:12px 20px;
+    border:none;
+    border-radius:15px;
+    margin-top:15px;
+    background:white;
+    color:#ff4f81;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover{
+    background:#ffe3ef;
+    transform:scale(1.05);
+}
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+.heart{
+    position:absolute;
+    font-size:20px;
+    animation:float 6s linear infinite;
+}
+@keyframes float{
+    0%{transform:translateY(100vh); opacity:1;}
+    100%{transform:translateY(-10vh); opacity:0;}
+}
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+
+<div class="app" id="app"></div>
+
+<script>
+
+const riddles = [
+{
+question:"💘 Empieza el día del amor… ¿qué fecha es hoy? (dd/mm)",
+answer:"14/02",
+message:"Siempre empezamos por el amor… y yo siempre te elijo a ti ❤️"
+},
+{
+question:"📅 Nuestro comienzo fue un 19 de junio… escríbelo completo (dd/mm/aaaa)",
+answer:"19/06/2024",
+message:"Desde ese día mi mundo tiene tu nombre."
+},
+{
+question:"👀 No fui yo… alguien se quedó mirándome primero. ¿Quién fue?",
+answer:"el",
+message:"Tan valiente para enamorarte primero… y tan perfecto haciéndolo."
+},
+{
+question:"🥰 Es la palabra que más escucho cuando me hablas… ¿cómo me llamas?",
+answer:"amor",
+message:"Y cada vez que lo dices me derrito."
+},
+{
+question:"🍰 Dulce, suave y nuestro favorito… ¿qué postre es?",
+answer:"tarta de queso",
+message:"Como nosotros… imposible no repetir."
+},
+{
+question:"🍣 Entre risas y miradas largas… ¿nuestro sitio favorito para cenar?",
+answer:"sushisom",
+message:"Nuestro lugar especial, lleno de recuerdos."
+},
+{
+question:"😊 No es tu voz ni tus manos… es lo que ilumina todo cuando aparece. ¿Qué es?",
+answer:"tu sonrisa",
+message:"Tu sonrisa es mi debilidad."
+},
+{
+question:"🏡 Nuestro futuro tiene una dirección clara… ¿dónde viviremos?",
+answer:"sangonera la seca",
+message:"Donde sea contigo, pero empezaremos allí."
+},
+{
+question:"👶 Un nombre que ya vive en mi corazón… ¿cómo se llamará nuestra hija?",
+answer:"elena",
+message:"Algún día… y será tan increíble como tú."
+}
+];
+
+let level = -1;
+
+function renderLogin(){
+    document.getElementById("app").innerHTML = `
+        <h2>🔐 Acceso privado</h2>
+        <p>Solo para ti, mi amor.</p>
+        <input type="password" id="pass" placeholder="Contraseña">
+        <br>
+        <button onclick="checkPass()">Entrar</button>
+        <p id="msg"></p>
+    `;
+}
+
+function checkPass(){
+    const value = document.getElementById("pass").value;
+    if(value === "190299"){
+        nextLevel();
+    } else {
+        document.getElementById("msg").innerHTML = "❌ Esa no es… piensa en algo muy tuyo 😉";
+    }
+}
+
+function nextLevel(){
+    level++;
+    if(level < riddles.length){
+        document.getElementById("app").innerHTML = `
+            <h3>Nivel ${level+1}</h3>
+            <p>${riddles[level].question}</p>
+            <input type="text" id="answer">
+            <br>
+            <button onclick="checkAnswer()">Responder</button>
+            <p id="msg"></p>
+        `;
+    } else {
+        finalScreen();
+    }
+}
+
+function checkAnswer(){
+    let user = document.getElementById("answer").value.toLowerCase().trim();
+    if(user === riddles[level].answer){
+        document.getElementById("msg").innerHTML = "✅ Correcto ❤️";
+        setTimeout(()=>{
+            alert(riddles[level].message);
+            nextLevel();
+        },700);
+    } else {
+        document.getElementById("msg").innerHTML = "❌ Piénsalo bien… tú lo sabes.";
+    }
+}
+
+function finalScreen(){
+    document.getElementById("app").innerHTML = `
+        <h2>🎉 LO CONSEGUISTE 🎉</h2>
+        <h3>💌 Premio desbloqueado</h3>
+        <p><strong>Vale por una cita romántica conmigo ❤️</strong></p>
+        <p>Válido para una noche inolvidable.</p>
+        <p>Te quiero infinito.</p>
+    `;
+    hearts();
+}
+
+function hearts(){
+    setInterval(()=>{
+        let heart = document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=(15+Math.random()*25)+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),6000);
+    },300);
+}
+
+renderLogin();
+
+</script>
+
+</body>
+</html>
